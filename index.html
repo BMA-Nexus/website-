@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMA Nexus — Privacy-friendly mobile apps</title>
+<meta name="description" content="BMA Nexus is an independent app studio building fast, privacy-first mobile apps for Android.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0B1120;
+    --ink-soft: #111a2e;
+    --line: rgba(232, 238, 252, 0.10);
+    --line-strong: rgba(232, 238, 252, 0.18);
+    --text: #EAF0FB;
+    --muted: #818FAD;
+    --accent: #6FE6B0;
+    --gutter: clamp(24px, 6vw, 80px);
+    --maxw: 1080px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--ink);
+    color: var(--text);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  .mono {
+    font-family: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .shell {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* ---------- Top meta bar ---------- */
+  .topbar {
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar .shell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 22px;
+    padding-bottom: 22px;
+    gap: 16px;
+  }
+  .topbar .id {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+  }
+  .topbar .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(111, 230, 176, 0.16);
+  }
+  .topbar .meta { color: var(--muted); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding-top: clamp(72px, 13vw, 150px);
+    padding-bottom: clamp(56px, 9vw, 110px);
+    position: relative;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 200%;
+    height: 540px;
+    background: radial-gradient(ellipse 60% 100% at 18% 0%, rgba(111, 230, 176, 0.10), transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .hero .tag {
+    color: var(--accent);
+    margin-bottom: 30px;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 7.2vw, 5rem);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .lede {
+    margin-top: 30px;
+    font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+    color: var(--muted);
+    max-width: 44ch;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  /* ---------- Editorial rows ---------- */
+  .row {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: clamp(20px, 5vw, 64px);
+    padding: clamp(40px, 6vw, 64px) 0;
+    border-top: 1px solid var(--line);
+    align-items: start;
+  }
+  .row .label {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    color: var(--muted);
+    position: sticky;
+  }
+  .row .label .num {
+    color: var(--accent);
+  }
+  .row h2 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 18px;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+  .row p.text {
+    font-size: clamp(1.05rem, 2vw, 1.22rem);
+    color: var(--text);
+    max-width: 52ch;
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+  .row p.text .soft { color: var(--muted); }
+
+  /* ---------- App block ---------- */
+  .app {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin-bottom: 26px;
+  }
+  .app .glyph {
+    flex: 0 0 auto;
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(150deg, rgba(111, 230, 176, 0.22), rgba(111, 230, 176, 0.04));
+    border: 1px solid rgba(111, 230, 176, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.7rem;
+    letter-spacing: -0.03em;
+  }
+  .app .name {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .app .kind {
+    color: var(--muted);
+    font-size: 0.98rem;
+    margin-top: 2px;
+  }
+  .caps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    max-width: 560px;
+  }
+  .caps span {
+    flex: 1 1 33%;
+    min-width: 110px;
+    padding: 14px 16px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+  .caps span::before {
+    content: "→ ";
+    color: var(--accent);
+  }
+
+  /* ---------- Contact ---------- */
+  .email {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: clamp(1.3rem, 3.4vw, 2.1rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.18s ease;
+  }
+  .email .arrow {
+    color: var(--accent);
+    transition: transform 0.18s ease;
+  }
+  .email:hover { color: var(--accent); }
+  .email:hover .arrow { transform: translate(4px, -4px); }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: clamp(20px, 4vw, 40px);
+  }
+  footer .shell {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px 24px;
+    padding-top: 34px;
+    padding-bottom: 48px;
+  }
+  footer .left {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+  }
+  footer .sep { color: rgba(232, 238, 252, 0.22); }
+  footer a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(111, 230, 176, 0.45);
+    padding-bottom: 2px;
+    transition: color 0.18s ease;
+  }
+  footer a:hover { color: var(--accent); }
+
+  @media (max-width: 700px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    .caps span { flex: 1 1 100%; }
+    .topbar .meta { display: none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="shell">
+      <span class="id mono"><span class="dot"></span>BMA&nbsp;Nexus</span>
+      <span class="meta mono">App&nbsp;Studio · NL</span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="shell">
+      <p class="tag mono">Independent App Studio</p>
+      <h1>Privacy-friendly mobile apps, built in the <em>Netherlands</em></h1>
+      <p class="lede">Fast, private apps for Android. No ads, no tracking, no selling of data.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+
+      <section class="row">
+        <div class="label mono"><span class="num">01</span><span>About</span></div>
+        <div>
+          <h2>An independent studio with a single rule: your data stays yours.</h2>
+          <p class="text">BMA Nexus is an independent app studio. We build fast, privacy-first mobile apps for Android <span class="soft">— no ads, no tracking, no selling of data.</span></p>
+        </div>
+      </section>
+
+      <section class="row">
+        <div class="label mono"><span class="num">02</span><span>Our apps</span></div>
+        <div>
+          <div class="app">
+            <span class="glyph">T</span>
+            <div>
+              <div class="name">Taskr</div>
+              <div class="kind">A fast, private to-do list &amp; task planner</div>
+            </div>
+          </div>
+          <div class="caps">
+            <span>Tasks</span>
+            <span>Reminders</span>
+            <span>Shared lists</span>
+            <span>Calendar</span>
+            <span>Widgets</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="row">
+        <div class="label mono"><span class="num">03</span><span>Contact</span></div>
+        <div>
+          <a class="email" href="mailto:bmanexusapps@gmail.com">
+            <span>bmanexusapps@gmail.com</span>
+            <span class="arrow">&#8599;</span>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell">
+      <div class="left">
+        <span>&copy; 2026 BMA Nexus</span>
+        <span class="sep">·</span>
+        <span>Netherlands</span>
+      </div>
+      <a href="https://bma-nexus.github.io/taskr-privacy/privacy-policy.html">Privacy policy &#8599;</a>
+    </div>
+  </footer>
+
+</body>
+</html>
